@@ -18,9 +18,8 @@ export class UsersController {
 
   @Post('/signup')
   async createUser(@Body() user: CreateUserDto) {
-    // const user = await this.usersService.create(body)
-    console.log({ user })
-    return user
+    const createdUser = await this.usersService.create(user)
+    return createdUser
   }
 
   @Get(':id')

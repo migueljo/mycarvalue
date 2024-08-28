@@ -10,7 +10,7 @@ export class UsersService {
   constructor(@InjectRepository(User) private repo: Repository<User>) {}
 
   async create(user: CreateUserDto) {
-    return 'create user'
+    return this.repo.save(user)
   }
   async findOne(id: string) {
     return 'get user'
