@@ -7,6 +7,7 @@ import {
   Post,
   Put,
   Query,
+  NotFoundException,
 } from '@nestjs/common'
 
 import { UsersService } from './users.service'
@@ -42,9 +43,11 @@ export class UsersController {
   }
 
   @Delete(':id')
-  async deleteUser(@Param('id') userId: string) {
+  async deleteUser(@Param('id') userId: number) {
     const deletedUser = await this.usersService.remove(userId)
-    console.log({ userId })
+    if (!deletedUser) {
+      throw new NotFoundException("User doesn't exist")
+    }
     return deletedUser
   }
 }

@@ -10,7 +10,8 @@ export class UsersService {
   constructor(@InjectRepository(User) private repo: Repository<User>) {}
 
   async create(user: CreateUserDto) {
-    return this.repo.save(user)
+    const userEntity = this.repo.create(user)
+    return this.repo.save(userEntity)
   }
   async findOne(id: string) {
     return 'get user'
@@ -21,7 +22,11 @@ export class UsersService {
   async update(id: string, user) {
     return 'update user'
   }
-  async remove(id: string) {
-    return 'delete user'
+  async remove(id: number) {
+    const user = await this.repo.findOne({ where: { id } })
+    if (!user) {
+      return null
+    }
+    return this.repo.remove(user)
   }
 }
