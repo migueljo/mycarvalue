@@ -9,8 +9,7 @@ import {
 } from 'typeorm'
 
 @Entity()
-// TODO: Enable unique
-// @Unique(['email'])
+@Unique(['email'])
 export class User {
   @PrimaryGeneratedColumn()
   id: number
