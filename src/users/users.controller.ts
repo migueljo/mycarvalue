@@ -25,10 +25,10 @@ export class UsersController {
     return createdUser
   }
 
-  @Get(':id')
-  async getUser(@Param('id') userId: User['id']) {
+  @Get('/:id')
+  async getUser(@Param('id') userId: string) {
     // TODO: Remove password from response
-    return this.usersService.findOne(userId)
+    return this.usersService.findOne(parseInt(userId, 10))
   }
 
   @Get()
@@ -37,18 +37,21 @@ export class UsersController {
     return this.usersService.findByEmail(email)
   }
 
-  @Put(':id')
+  @Put('/:id')
   async updateUser(
-    @Param('id') userId: User['id'],
+    @Param('id') userId: string,
     @Body() newUserData: UpdateUserDto,
   ) {
-    const updatedUser = await this.usersService.update(userId, newUserData)
+    const updatedUser = await this.usersService.update(
+      parseInt(userId, 10),
+      newUserData,
+    )
     return updatedUser
   }
 
-  @Delete(':id')
-  async deleteUser(@Param('id') userId: number) {
-    const deletedUser = await this.usersService.remove(userId)
+  @Delete('/:id')
+  async deleteUser(@Param('id') userId: string) {
+    const deletedUser = await this.usersService.remove(parseInt(userId, 10))
     return deletedUser
   }
 }
