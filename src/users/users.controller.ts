@@ -12,6 +12,8 @@ import {
 
 import { UsersService } from './users.service'
 import { CreateUserDto } from './dtos/create-user.dto'
+import { UpdateUserDto } from './dtos/update-user.dto'
+import { User } from './user.entity'
 
 @Controller('auth')
 export class UsersController {
@@ -30,15 +32,17 @@ export class UsersController {
 
   @Get()
   async getUserByEmail(@Query('email') email: string) {
-    console.log({ email })
+    // TODO: Remove password from response
     return this.usersService.findByEmail(email)
   }
 
   @Put(':id')
-  async updateUser(@Param('id') userId: string, @Body() body) {
-    // Validate the request body
-    const updatedUser = await this.usersService.update(userId, body)
+  async updateUser(
+    @Param('id') userId: User['id'],
+    @Body() newUserData: UpdateUserDto,
+  ) {
     console.log({ userId })
+    const updatedUser = await this.usersService.update(userId, newUserData)
     return updatedUser
   }
 

@@ -25,12 +25,12 @@ export class UsersService {
     return 'get user'
   }
   async findByEmail(email: string) {
-    return 'get user by email'
+    return this.repo.find({ where: { email } })
   }
-  async update(id: string, user) {
-    return 'update user'
+  async update(id: User['id'], user) {
+    return this.repo.update({ id }, user)
   }
-  async remove(id: number) {
+  async remove(id: User['id']) {
     const user = await this.repo.findOne({ where: { id } })
     if (!user) {
       throw new NotFoundException("User doesn't exist")
