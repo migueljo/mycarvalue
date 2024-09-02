@@ -21,8 +21,8 @@ export class UsersService {
     const userEntity = this.repo.create(user)
     return this.repo.save(userEntity)
   }
-  async findOne(id: string) {
-    return 'get user'
+  async findOne(id: User['id']) {
+    return this.repo.findOneBy({ id })
   }
   async findByEmail(email: string) {
     return this.repo.find({ where: { email } })

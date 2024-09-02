@@ -7,6 +7,9 @@ content-type: application/json
   "password": "123456"
 }
 
+### Get user by ID
+GET http://localhost:3000/auth/3
+
 ### Get user by email
 GET http://localhost:3000/auth?email=migueljomartinez@gmail.com
 

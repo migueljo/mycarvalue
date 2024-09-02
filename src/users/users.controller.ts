@@ -26,7 +26,8 @@ export class UsersController {
   }
 
   @Get(':id')
-  async getUser(@Param('id') userId: string) {
+  async getUser(@Param('id') userId: User['id']) {
+    // TODO: Remove password from response
     return this.usersService.findOne(userId)
   }
 
