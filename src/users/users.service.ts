@@ -22,13 +22,19 @@ export class UsersService {
     return this.repo.save(userEntity)
   }
   async findOne(id: User['id']) {
-    return this.repo.findOneBy({ id })
+    const user = await this.repo.findOneBy({ id })
+    if (!user) {
+      throw new NotFoundException('User not found')
+    }
+    return user
   }
   async findByEmail(email: string) {
     return this.repo.find({ where: { email } })
   }
-  async update(id: User['id'], user) {
-    return this.repo.update({ id }, user)
+  async update(id: User['id'], attrs: Partial<User>) {
+    const user = await this.findOne(id)
+    const updatedUser = Object.assign({}, user, attrs)
+    return this.repo.save(updatedUser)
   }
   async remove(id: User['id']) {
     const user = await this.repo.findOne({ where: { id } })

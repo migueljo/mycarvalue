@@ -42,7 +42,6 @@ export class UsersController {
     @Param('id') userId: User['id'],
     @Body() newUserData: UpdateUserDto,
   ) {
-    console.log({ userId })
     const updatedUser = await this.usersService.update(userId, newUserData)
     return updatedUser
   }

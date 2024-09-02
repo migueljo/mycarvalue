@@ -15,9 +15,10 @@ GET http://localhost:3000/auth?email=migueljomartinez@gmail.com
 
 ### Update user by id
 PUT http://localhost:3000/auth/3
+content-type: application/json
 
 {
-  "password": "007007"
+  "password": "0070078"
 }
 
 ### Remove user by id
