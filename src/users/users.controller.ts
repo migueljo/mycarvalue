@@ -1,5 +1,6 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
@@ -7,13 +8,12 @@ import {
   Post,
   Put,
   Query,
-  NotFoundException,
+  UseInterceptors,
 } from '@nestjs/common'
 
 import { UsersService } from './users.service'
 import { CreateUserDto } from './dtos/create-user.dto'
 import { UpdateUserDto } from './dtos/update-user.dto'
-import { User } from './user.entity'
 
 @Controller('auth')
 export class UsersController {
@@ -25,15 +25,15 @@ export class UsersController {
     return createdUser
   }
 
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get('/:id')
   async getUser(@Param('id') userId: string) {
-    // TODO: Remove password from response
     return this.usersService.findOne(parseInt(userId, 10))
   }
 
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get()
   async getUserByEmail(@Query('email') email: string) {
-    // TODO: Remove password from response
     return this.usersService.findByEmail(email)
   }
 

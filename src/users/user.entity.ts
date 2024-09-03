@@ -7,6 +7,7 @@ import {
   AfterRemove,
   AfterUpdate,
 } from 'typeorm'
+import { Exclude } from 'class-transformer'
 
 @Entity()
 @Unique(['email'])
@@ -18,6 +19,7 @@ export class User {
   email: string
 
   @Column()
+  @Exclude()
   password: string
 
   @AfterInsert()
