@@ -37,10 +37,7 @@ export class UsersService {
     return this.repo.save(updatedUser)
   }
   async remove(id: User['id']) {
-    const user = await this.repo.findOne({ where: { id } })
-    if (!user) {
-      throw new NotFoundException("User doesn't exist")
-    }
+    const user = await this.findOne(id)
     return this.repo.remove(user)
   }
 }

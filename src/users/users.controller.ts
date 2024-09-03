@@ -38,13 +38,10 @@ export class UsersController {
   }
 
   @Put('/:id')
-  async updateUser(
-    @Param('id') userId: string,
-    @Body() newUserData: UpdateUserDto,
-  ) {
+  async updateUser(@Param('id') userId: string, @Body() body: UpdateUserDto) {
     const updatedUser = await this.usersService.update(
       parseInt(userId, 10),
-      newUserData,
+      body,
     )
     return updatedUser
   }
