@@ -33,7 +33,7 @@ export class UsersController {
     return this.usersService.findOne(parseInt(userId, 10))
   }
 
-  @UseInterceptors(ClassSerializerInterceptor)
+  @UseInterceptors(SerializeInterceptor)
   @Get()
   async getUserByEmail(@Query('email') email: string) {
     return this.usersService.findByEmail(email)
