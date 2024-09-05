@@ -19,6 +19,7 @@ import {
 } from 'src/interceptors/serialize.interceptor'
 import { UserDto } from './dtos/user.dto'
 
+@Serialize(UserDto)
 @Controller('auth')
 export class UsersController {
   constructor(private usersService: UsersService) {}
@@ -29,13 +30,11 @@ export class UsersController {
     return createdUser
   }
 
-  @Serialize(UserDto)
   @Get('/:id')
   async getUser(@Param('id') userId: string) {
     return this.usersService.findOne(parseInt(userId, 10))
   }
 
-  @Serialize(UserDto)
   @Get()
   async getUserByEmail(@Query('email') email: string) {
     return this.usersService.findByEmail(email)

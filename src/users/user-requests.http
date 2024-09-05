@@ -14,7 +14,7 @@ GET http://localhost:3000/auth/3
 GET http://localhost:3000/auth?email=migueljomartinez@gmail.com
 
 ### Update user by id
-PUT http://localhost:3000/auth/3
+PUT http://localhost:3000/auth/5
 content-type: application/json
 
 {
