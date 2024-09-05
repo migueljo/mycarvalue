@@ -1,6 +1,5 @@
 import {
   Body,
-  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
@@ -15,6 +14,7 @@ import { UsersService } from './users.service'
 import { CreateUserDto } from './dtos/create-user.dto'
 import { UpdateUserDto } from './dtos/update-user.dto'
 import { SerializeInterceptor } from 'src/interceptors/serialize.interceptor'
+import { UserDto } from './dtos/user.dto'
 
 @Controller('auth')
 export class UsersController {
@@ -26,14 +26,13 @@ export class UsersController {
     return createdUser
   }
 
-  @UseInterceptors(SerializeInterceptor)
+  @UseInterceptors(new SerializeInterceptor(UserDto))
   @Get('/:id')
   async getUser(@Param('id') userId: string) {
-    console.log('Handler is running')
     return this.usersService.findOne(parseInt(userId, 10))
   }
 
-  @UseInterceptors(SerializeInterceptor)
+  @UseInterceptors(new SerializeInterceptor(UserDto))
   @Get()
   async getUserByEmail(@Query('email') email: string) {
     return this.usersService.findByEmail(email)
