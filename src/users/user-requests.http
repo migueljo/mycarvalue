@@ -3,8 +3,8 @@ POST http://localhost:3000/auth/signup
 content-type: application/json
 
 {
-  "email": "migueljomartinez+1@gmail.com",
-  "password": "123456"
+  "email": "migueljomartinez+4@gmail.com",
+  "password": "unicornio-verde-con-coco"
 }
 
 ### Get user by ID

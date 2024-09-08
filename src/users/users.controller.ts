@@ -26,8 +26,7 @@ export class UsersController {
 
   @Post('/signup')
   async signup(@Body() user: CreateUserDto) {
-    this.authService.signup(user.email, user.password)
-    return {}
+    return this.authService.signup(user.email, user.password)
   }
 
   @Get('/:id')
