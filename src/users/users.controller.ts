@@ -12,9 +12,10 @@ import {
 import { UsersService } from './users.service'
 import { CreateUserDto } from './dtos/create-user.dto'
 import { UpdateUserDto } from './dtos/update-user.dto'
-import { Serialize } from 'src/interceptors/serialize.interceptor'
+import { Serialize } from '../interceptors/serialize.interceptor'
 import { UserDto } from './dtos/user.dto'
 import { AuthService } from './auth.service'
+import { SigninUserDto } from './dtos/signin-user.dto'
 
 @Serialize(UserDto)
 @Controller('auth')
@@ -29,7 +30,7 @@ export class UsersController {
     return this.authService.signup(user.email, user.password)
   }
   @Post('/signin')
-  async signin(@Body() user: CreateUserDto) {
+  async signin(@Body() user: SigninUserDto) {
     return this.authService.signin(user.email, user.password)
   }
 
