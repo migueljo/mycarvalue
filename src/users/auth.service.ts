@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common'
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common'
 import { randomBytes, scrypt as _script } from 'crypto'
 import { promisify } from 'util'
 
@@ -24,12 +28,23 @@ export class AuthService {
     return user
   }
   async signin(email: string, password: string) {
-    /**
-     * 1. Check if a user with the provided email exists, if it doesn't, throw a NotFoundException
-     * 2. Decrypt the password
-     * 3. Compare the provided password with the decrypted password
-     *  - If they don't match, throw a BadRequestException
-     *  - If they do match, send back a cookie that contains the user's id
-     */
+    // Find user by email
+    const user = await this.userService.findByEmail(email)
+    if (!user) {
+      throw new NotFoundException('User not found')
+    }
+    // Get salt from user's password
+    const [salt, storedHash] = user.password.split('.')
+    // hash the provided password with the salt from the DB
+    const hashToValidate = (
+      (await scrypt(password, salt, 32)) as Buffer
+    ).toString('hex')
+
+    if (storedHash !== hashToValidate) {
+      throw new BadRequestException('')
+    }
+
+    // Return cookie with user's id
+    return user
   }
 }

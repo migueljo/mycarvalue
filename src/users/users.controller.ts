@@ -28,6 +28,10 @@ export class UsersController {
   async signup(@Body() user: CreateUserDto) {
     return this.authService.signup(user.email, user.password)
   }
+  @Post('/signin')
+  async signin(@Body() user: CreateUserDto) {
+    return this.authService.signin(user.email, user.password)
+  }
 
   @Get('/:id')
   async getUser(@Param('id') userId: string) {

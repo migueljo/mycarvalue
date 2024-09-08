@@ -1,5 +1,14 @@
-### Create User
+### Sign up
 POST http://localhost:3000/auth/signup
+content-type: application/json
+
+{
+  "email": "migueljomartinez+4@gmail.com",
+  "password": "unicornio-verde-con-coco"
+}
+
+### Sign in
+POST http://localhost:3000/auth/signin
 content-type: application/json
 
 {
