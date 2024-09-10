@@ -3,17 +3,17 @@ POST http://localhost:3000/auth/signup
 content-type: application/json
 
 {
-  "email": "migueljomartinez+4@gmail.com",
-  "password": "unicornio-verde-con-coco"
+  "email": "migueljomartinez@gmail.com",
+  "password": "password1"
 }
 
-### Sign in
+### Sign in as an existing user
 POST http://localhost:3000/auth/signin
 content-type: application/json
 
 {
-  "email": "migueljomartinez+4@gmail.com",
-  "password": "unicornio-verde-con-coco"
+  "email": "migueljomartinez@gmail.com",
+  "password": "password1"
 }
 
 ### Get user by ID
@@ -31,10 +31,4 @@ content-type: application/json
 }
 
 ### Remove user by id
-DELETE http://localhost:3000/auth/4
-
-### Set color
-POST http://localhost:3000/auth/colors/lightcoral
-
-### Get color
-GET http://localhost:3000/auth/colors
+DELETE http://localhost:3000/auth/10
