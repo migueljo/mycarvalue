@@ -7,6 +7,7 @@ import {
   Post,
   Put,
   Query,
+  Session,
 } from '@nestjs/common'
 
 import { UsersService } from './users.service'
@@ -24,6 +25,16 @@ export class UsersController {
     private usersService: UsersService,
     private authService: AuthService,
   ) {}
+
+  @Post('/colors/:color')
+  setColor(@Param('color') color: string, @Session() session: any) {
+    session.color = color
+  }
+
+  @Get('/colors')
+  getColor(@Session() session: any) {
+    return session.color
+  }
 
   @Post('/signup')
   async signup(@Body() user: CreateUserDto) {

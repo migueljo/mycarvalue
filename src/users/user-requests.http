@@ -32,3 +32,9 @@ content-type: application/json
 
 ### Remove user by id
 DELETE http://localhost:3000/auth/4
+
+### Set color
+POST http://localhost:3000/auth/colors/lightcoral
+
+### Get color
+GET http://localhost:3000/auth/colors
