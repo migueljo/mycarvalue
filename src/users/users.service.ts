@@ -2,6 +2,7 @@ import {
   Injectable,
   NotFoundException,
   ConflictException,
+  BadRequestException,
 } from '@nestjs/common'
 import { Repository } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
@@ -22,6 +23,10 @@ export class UsersService {
     return this.repo.save(userEntity)
   }
   async findOne(id: User['id']) {
+    if (id === undefined || id === null) {
+      throw new BadRequestException('userId cannot be empty')
+    }
+
     const user = await this.repo.findOneBy({ id })
     if (!user) {
       throw new NotFoundException('User not found')
