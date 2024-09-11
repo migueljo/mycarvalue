@@ -4,7 +4,6 @@ import { ExecutionContextHost } from '@nestjs/core/helpers/execution-context-hos
 export const CurrentUser = createParamDecorator(
   (data: never, context: ExecutionContextHost) => {
     const request = context.switchToHttp().getRequest()
-    console.log('@CurrentUser()', request.session.userId)
-    return 'hi there'
+    return request.currentUser
   },
 )
