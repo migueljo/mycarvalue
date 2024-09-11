@@ -6,7 +6,6 @@ import {
 } from '@nestjs/common'
 
 import { UsersService } from '../users.service'
-import { Observable } from 'rxjs'
 
 // @Intectable allows us to use dependency injection in this class
 @Injectable()
@@ -15,7 +14,7 @@ export class CurrentUserInterceptor implements NestInterceptor {
 
   async intercept(context: ExecutionContext, next: CallHandler<any>) {
     const request = context.switchToHttp().getRequest()
-    const userId = request.session.userId
+    const userId = request.session?.userId
 
     if (userId) {
       const user = await this.usersService.findOne(userId)
