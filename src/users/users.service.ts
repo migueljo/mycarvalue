@@ -14,12 +14,12 @@ import { User } from './user.entity'
 export class UsersService {
   constructor(@InjectRepository(User) private repo: Repository<User>) {}
 
-  async create(user: CreateUserDto) {
-    const userExists = await this.repo.findOneBy({ email: user.email })
+  async create(email: string, password: string) {
+    const userExists = await this.repo.findOneBy({ email })
     if (userExists) {
       throw new ConflictException('Email already used')
     }
-    const userEntity = this.repo.create(user)
+    const userEntity = this.repo.create({ email, password })
     return this.repo.save(userEntity)
   }
   async findOne(id: User['id']) {
