@@ -7,7 +7,6 @@ import {
 import { Repository } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
 
-import { CreateUserDto } from './dtos/create-user.dto'
 import { User } from './user.entity'
 
 @Injectable()
@@ -22,6 +21,7 @@ export class UsersService {
     const userEntity = this.repo.create({ email, password })
     return this.repo.save(userEntity)
   }
+
   async findOne(id: User['id']) {
     if (id === undefined || id === null) {
       throw new BadRequestException('userId cannot be empty')
@@ -33,14 +33,17 @@ export class UsersService {
     }
     return user
   }
+
   async findByEmail(email: string) {
     return this.repo.findOneBy({ email })
   }
+
   async update(id: User['id'], attrs: Partial<User>) {
     const user = await this.findOne(id)
     const updatedUser = Object.assign({}, user, attrs)
     return this.repo.save(updatedUser)
   }
+
   async remove(id: User['id']) {
     const user = await this.findOne(id)
     return this.repo.remove(user)

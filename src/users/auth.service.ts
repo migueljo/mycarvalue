@@ -27,6 +27,7 @@ export class AuthService {
     const user = await this.userService.create(email, result)
     return user
   }
+
   async signin(email: string, password: string) {
     // Find user by email
     const user = await this.userService.findByEmail(email)
