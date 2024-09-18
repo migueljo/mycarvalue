@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing'
-import { NotFoundException } from '@nestjs/common'
+import { BadRequestException, NotFoundException } from '@nestjs/common'
 
-import { AuthService } from './auth.service'
+import { AuthService, generateHash } from './auth.service'
 import { UsersService } from './users.service'
 import { User } from './user.entity'
 
@@ -58,5 +58,19 @@ describe('AuthService', () => {
     await expect(service.signin(email, password)).rejects.toThrow(
       NotFoundException,
     )
+  })
+
+  it('returns a user if the provided password is correct', async () => {
+    const email = 'miguel@gmail.com'
+    const password = 'password'
+    const salt = 'salt'
+    const hash = await generateHash(password, salt)
+    const hashedPassword = `${salt}.${hash.toString('hex')}`
+
+    fakeUsersService.findByEmail = () =>
+      Promise.resolve({ id: 1, email, password: hashedPassword } as User)
+
+    const user = await service.signin(email, password)
+    expect(user).toBeDefined()
   })
 })
