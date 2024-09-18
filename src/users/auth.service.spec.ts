@@ -63,27 +63,20 @@ describe('AuthService', () => {
   it('returns a user if the provided password is correct', async () => {
     const email = 'miguel@gmail.com'
     const password = 'password'
-    const salt = 'salt'
-    const hash = await generateHash(password, salt)
-    const hashedPassword = `${salt}.${hash.toString('hex')}`
+    const signedUpUser = await service.signup(email, password)
+    fakeUsersService.findByEmail = () => Promise.resolve(signedUpUser)
 
-    fakeUsersService.findByEmail = () =>
-      Promise.resolve({ id: 1, email, password: hashedPassword } as User)
+    const signedInUser = await service.signin(email, password)
 
-    const user = await service.signin(email, password)
-    expect(user).toBeDefined()
+    await expect(signedInUser).toBeDefined()
   })
 
   it('throws if an invalid password is provided', async () => {
     const email = 'miguel@gmail.com'
     const password = 'password'
-    const salt = 'salt'
-    const hash = await generateHash(password, salt)
-    const hashedPassword = `${salt}.${hash.toString('hex')}`
     const wrongPassword = 'wrong.password'
-
-    fakeUsersService.findByEmail = () =>
-      Promise.resolve({ id: 1, email, password: hashedPassword } as User)
+    const signedUpUser = await service.signup(email, password)
+    fakeUsersService.findByEmail = () => Promise.resolve(signedUpUser)
 
     await expect(service.signin(email, wrongPassword)).rejects.toThrow(
       BadRequestException,
