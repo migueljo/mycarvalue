@@ -1,4 +1,6 @@
 import { Test } from '@nestjs/testing'
+import { NotFoundException } from '@nestjs/common'
+
 import { AuthService } from './auth.service'
 import { UsersService } from './users.service'
 import { User } from './user.entity'
@@ -43,8 +45,18 @@ describe('AuthService', () => {
 
   it('throws an error if user signs up with an email that is in use', async () => {
     const email = 'miguel@gmail.com'
-    const password = 'asdf'
+    const password = 'password'
     fakeUsersService.create = () => Promise.reject(new Error())
-    await expect(service.signup(email, password)).rejects.toThrow()
+    await expect(service.signup(email, password)).rejects.toThrow(Error)
+  })
+
+  it('throws if signin is called with an unused email', async () => {
+    const email = 'emaildoesnotexist@gmail.com'
+    const password = 'password'
+    fakeUsersService.findByEmail = () => Promise.resolve(null)
+
+    await expect(service.signin(email, password)).rejects.toThrow(
+      NotFoundException,
+    )
   })
 })
