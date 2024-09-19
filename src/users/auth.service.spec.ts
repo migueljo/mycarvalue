@@ -12,12 +12,9 @@ describe('AuthService', () => {
   beforeEach(async () => {
     // Create a fake copy of the users service
     fakeUsersService = {
-      create: (email, password) =>
-        Promise.resolve({ id: 1, email, password } as User),
-      findByEmail: (email) =>
-        Promise.resolve({ id: 1, email, password: 'b' } as User),
-      findOne: (id) =>
-        Promise.resolve({ id, email: 'a', password: 'b' } as User),
+      create: async (email, password) => ({ id: 1, email, password }) as User,
+      findByEmail: async (email) => ({ id: 1, email, password: 'b' }) as User,
+      findOne: async (id) => ({ id, email: 'a', password: 'b' }) as User,
     }
 
     const module = await Test.createTestingModule({
