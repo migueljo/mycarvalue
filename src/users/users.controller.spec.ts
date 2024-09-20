@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing'
+import { BadRequestException } from '@nestjs/common'
 
 import { UsersController } from './users.controller'
 import { UsersService } from './users.service'
@@ -43,5 +44,34 @@ describe('UsersController', () => {
 
   it('should be defined', () => {
     expect(controller).toBeDefined()
+  })
+
+  it('getUser() should return a user', async () => {
+    const user = await controller.getUser('1')
+    expect(user.id).toEqual(1)
+  })
+
+  it('getUser() should throw an error if id is undefined', async () => {
+    fakeUsersService.findOne = async () => {
+      throw new BadRequestException()
+    }
+
+    await expect(controller.getUser(undefined)).rejects.toThrow(
+      BadRequestException,
+    )
+    await expect(controller.getUser(null)).rejects.toThrow(BadRequestException)
+  })
+
+  it('getUserByEmail() should return a user', async () => {
+    const email = 'miguel@gmail.com'
+    const user = await controller.getUserByEmail('miguel@gmail.com')
+    expect(user.email).toEqual(email)
+  })
+
+  it("getUserByEmail() should return null if email doesn't exist", async () => {
+    const email = 'miguel@gmail.com'
+    fakeUsersService.findByEmail = async () => null
+
+    await expect(await controller.getUserByEmail(email)).toBeNull()
   })
 })
