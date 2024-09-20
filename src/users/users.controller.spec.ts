@@ -12,10 +12,12 @@ describe('UsersController', () => {
 
   beforeEach(async () => {
     fakeUsersService = {
-      findOne: () => null,
-      findByEmail: () => null,
-      update: () => null,
-      remove: () => null,
+      findOne: async (id: number) =>
+        ({ id, email: 'miguel@gmail.com', password: 'password' }) as User,
+      findByEmail: async (email: string) =>
+        ({ id: 1, email, password: 'password' }) as User,
+      update: async (id: number, attrs) => ({ id, ...attrs }) as User,
+      remove: async (id: number) => ({ id }) as User,
     }
     fakeAuthService = {
       signup: () => null,
