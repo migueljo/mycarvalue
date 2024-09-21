@@ -22,7 +22,8 @@ describe('UsersController', () => {
     }
     fakeAuthService = {
       signup: () => null,
-      signin: () => null,
+      signin: async (email: string, password: string) =>
+        ({ id: 1, email, password }) as User,
     }
 
     const module: TestingModule = await Test.createTestingModule({
@@ -73,5 +74,15 @@ describe('UsersController', () => {
     fakeUsersService.findByEmail = async () => null
 
     await expect(await controller.getUserByEmail(email)).toBeNull()
+  })
+
+  it('signing updates session object and returns user', async () => {
+    const session: { userId?: number } = {}
+    const user = await controller.signin(
+      { email: 'miguel@gmail.com', password: 'password' },
+      session,
+    )
+    expect(user).toBeDefined()
+    expect(session.userId).toBeDefined()
   })
 })
