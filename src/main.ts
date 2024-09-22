@@ -13,12 +13,6 @@ async function bootstrap() {
       keys: ['asdasdasd'],
     }),
   )
-  app.useGlobalPipes(
-    new ValidationPipe({
-      // Strip away any properties that are not in the DTO
-      whitelist: true,
-    }),
-  )
   await app.listen(3000)
 }
 bootstrap()
