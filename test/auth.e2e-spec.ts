@@ -17,7 +17,7 @@ describe('Authentication System', () => {
   })
 
   it('handles a signup request', async () => {
-    const email = 'miguel+1@gmail.com'
+    const email = 'miguel@gmail.com'
     const response = await request(app.getHttpServer())
       .post('/auth/signup')
       .send({ email, password: '1234' })
@@ -26,5 +26,22 @@ describe('Authentication System', () => {
     expect(response.body.id).toBeDefined()
     expect(response.body.email).toEqual(email)
     expect(response.body.password).toBeUndefined()
+  })
+
+  it('signup as a new user then get the currently logged in user', async () => {
+    const email = 'miguel@gmail.com'
+    const signupRes = await request(app.getHttpServer())
+      .post('/auth/signup')
+      .send({ email, password: '1234' })
+      .expect(201)
+    const cookie = signupRes.get('Set-Cookie')
+
+    await request(app.getHttpServer())
+      .get('/auth/whoami')
+      .set('Cookie', cookie)
+      .expect(200)
+      .then((response) => {
+        expect(response.body.email).toEqual(email)
+      })
   })
 })
